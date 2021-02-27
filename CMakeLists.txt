@@ -2,5 +2,7 @@ cmake_minimum_required( VERSION 3.17 )
 
 project( staple C )
 
-add_executable( staple src/main.c )
+add_executable( staple
+    src/main.c
+    src/util.c )
 include_directories( staple ${PROJECT_SOURCE_DIR}/include/ )
