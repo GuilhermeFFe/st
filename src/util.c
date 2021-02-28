@@ -32,3 +32,16 @@ char* read_ascii_file( const char* path )
     // Return file's content
     return buf;
 }
+
+void write_binary_file( const char* path, ByteBuffer* bb )
+{
+    FILE* file = fopen( path, "wb" );
+    if( !file )
+    {
+        printf( "Could not write to file %s\n", path );
+        return;
+    }
+
+    fwrite( bb->buffer, 1, bb->ptr, file );
+    fclose( file );
+}

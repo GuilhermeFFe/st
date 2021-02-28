@@ -29,7 +29,6 @@ ParserStatus parser_start( TokenList* list, const char* source )
         if( lex[0] == '#' )
         {
             int num = parser_get_number( lex );
-            printf( "NUMBER: %d\n", num );
             token_list_add( list, token_create( NUMBER, num, line ) );
         }
         else // Must be an instruction
@@ -37,7 +36,6 @@ ParserStatus parser_start( TokenList* list, const char* source )
             int inst = parser_get_inst( lex );
             if( inst >= 0 )
             {
-                printf( "INSTRUCTION: %d\n", inst );
                 token_list_add( list, token_create( INST, inst, line ) );
             }
             else

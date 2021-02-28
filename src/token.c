@@ -15,7 +15,7 @@ void token_destroy( Token* tok )
     free( tok );
 }
 
-TokenList* token_list_create( TokenList* list, size_t size )
+void token_list_initialize( TokenList* list, size_t size )
 {
     list->data = (Token**) malloc( sizeof( Token* ) * size );
     list->ptr = 0;
@@ -33,7 +33,7 @@ void token_list_add( TokenList* list, Token* tok )
     list->data[list->ptr++] = tok;
 }
 
-Token* token_list_get( const TokenList* list, int index )
+Token* token_list_get( const TokenList* list, size_t index )
 {
     return list->data[index];
 }

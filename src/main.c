@@ -5,6 +5,7 @@
 #include <util.h>
 #include <parser.h>
 #include <token.h>
+#include <compiler.h>
 
 // staple compile file.stvm
 
@@ -20,7 +21,7 @@ int main( int argc, char** argv )
     {
         char* source = read_ascii_file( argv[2] );
         TokenList tokens;
-        token_list_create( &tokens, 1 );
+        token_list_initialize( &tokens, 1 );
         ParserStatus ps = parser_start( &tokens, source );
 
         if( ps != PARSER_SUCCESS )
@@ -28,14 +29,17 @@ int main( int argc, char** argv )
             return 1;
         }
 
-        // TODO: remove
-        for(int i = 0; i < tokens.ptr; i++ )
+        Compiler comp;
+        comp.tokens = &tokens;
+        compiler_start( &comp );
+        if( comp.status != COMPILER_SUCCESS )
         {
-            Token* t = token_list_get(&tokens, i);
-            printf( "%d, %d, %d\n", t->type, t->data, t->line );
+            return 1;
         }
 
-        token_list_destroy( &tokens );
+        write_binary_file( "out.stbc", comp.bytecode );
+
+        compiler_destroy( &comp );
         free( source );
     }
 
