@@ -4,5 +4,7 @@ project( staple C )
 
 add_executable( staple
     src/main.c
-    src/util.c )
+    src/util.c
+    src/parser.c
+    src/token.c )
 include_directories( staple ${PROJECT_SOURCE_DIR}/include/ )
