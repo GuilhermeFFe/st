@@ -38,12 +38,13 @@ typedef struct _Token Token;
 /**
  * Creates token from given type, data and line number
  * 
+ * @param tok token to fill
  * @param type token type to be created
  * @param data data to insert into token
  * @param line source code's line
  * @returns token from given type, data and line
  */
-Token* token_create( TokenType type, int data, int line );
+void token_create( Token* tok, TokenType type, int data, int line );
 
 /**
  * Frees memory allocated to given token
@@ -54,7 +55,7 @@ void token_destroy( Token* tok );
 
 struct _TokenList
 {
-    Token** data;
+    Token* data;
     size_t ptr; // Points to the current selected pointer in data
     size_t size;
 };
@@ -77,7 +78,7 @@ void token_list_initialize( TokenList* list, size_t size );
  * @param list TokenList to append Token
  * @param tok Token to apppend
  */
-void token_list_add( TokenList* list, Token* tok );
+void token_list_add( TokenList* list, Token tok );
 
 /**
  * Gets token from list at given index

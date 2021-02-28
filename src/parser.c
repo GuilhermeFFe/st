@@ -25,18 +25,22 @@ ParserStatus parser_start( TokenList* list, const char* source )
         // TODO: linhas vazias
         // TODO: tabs
 
+        Token token;
+
         // Numerical constant
         if( lex[0] == '#' )
         {
             int num = parser_get_number( lex );
-            token_list_add( list, token_create( NUMBER, num, line ) );
+            token_create( &token, NUMBER, num, line );
+            token_list_add( list, token );
         }
         else // Must be an instruction
         {
             int inst = parser_get_inst( lex );
             if( inst >= 0 )
             {
-                token_list_add( list, token_create( INST, inst, line ) );
+                token_create( &token, INST, inst, line );
+                token_list_add( list, token );
             }
             else
             {
