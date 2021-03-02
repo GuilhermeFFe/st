@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 
 #include <util.h>
 #include <parser.h>
 #include <token.h>
 #include <compiler.h>
+#include <runtime.h>
 
 // staple compile file.stvm
 
@@ -17,6 +19,7 @@ int main( int argc, char** argv )
         return 1;
     }
     
+    // Compile
     if( strcmp( argv[1], "compile" ) == 0 )
     {
         char* source = read_ascii_file( argv[2] );
@@ -42,7 +45,24 @@ int main( int argc, char** argv )
         compiler_destroy( &comp );
         free( source );
     }
+    else if( strcmp( argv[1], "run" ) == 0 )
+    {
+        uint8_t* buffer = read_binary_file( argv[2] );
+
+        Runtime runtime;
+        runtime.code = buffer;
+        runtime_start( &runtime );
+
+        if( runtime.status == RUNTIME_ERROR )
+        {
+            return 1;
+        }
+
+        free( buffer );
+
+        return runtime.exit;
+    }
 
 
-    return 0;
+    return -1;
 }

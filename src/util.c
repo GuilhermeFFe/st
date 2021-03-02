@@ -38,10 +38,43 @@ void write_binary_file( const char* path, ByteBuffer* bb )
     FILE* file = fopen( path, "wb" );
     if( !file )
     {
-        printf( "Could not write to file %s\n", path );
+        printf( "Could not write to file '%s'\n", path );
         return;
     }
 
     fwrite( bb->buffer, 1, bb->ptr, file );
     fclose( file );
+}
+
+uint8_t* read_binary_file( const char* path )
+{
+    FILE* file = fopen( path, "rb" );
+    if( !file )
+    {
+        printf( "Could not open file '%s'\n", path );
+        return NULL;
+    }
+
+    fseek( file, 0, SEEK_END );
+    int size = ftell( file );
+    fseek( file, 0, SEEK_SET );
+
+    uint8_t* buffer = (uint8_t*) malloc( sizeof( uint8_t ) * size );
+    fread( buffer, 1, size, file );
+    fclose( file );
+
+    return buffer;
+}
+
+uint16_t read16( uint8_t* buffer, size_t index )
+{
+    return buffer[index] << 8 | buffer[index+1];
+}
+
+uint32_t read32( uint8_t* buffer, size_t index )
+{
+    return buffer[index++] << 24 |
+           buffer[index++] << 16 |
+           buffer[index++] << 8 |
+           buffer[index];
 }
