@@ -1,0 +1,10 @@
+push #12
+push #24
+jmp $$test
+$pushmore
+push #10
+add
+hlt
+$test
+add
+jmp $$pushmore

@@ -11,5 +11,6 @@ add_executable( staple
     src/token.c
     src/compiler.c
     src/bytebuffer.c
-    src/runtime.c )
+    src/runtime.c
+    src/labellist.c )
 include_directories( staple ${PROJECT_SOURCE_DIR}/include/ )

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdlib.h>
+#include <stdint.h>
 
 enum _TokenType
 {
@@ -17,6 +18,7 @@ enum _TokenInst
     MULT,
     DIV,
     SUB,
+    JMP,
     HLT
 };
 typedef enum _TokenInst TokenInst;
@@ -32,8 +34,8 @@ char* token_inst_str( const TokenInst tinst );
 struct _Token
 {
     TokenType type;
-    int data;
-    int line;
+    uint32_t data;
+    uint32_t line;
 };
 
 typedef struct _Token Token;

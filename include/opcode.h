@@ -8,6 +8,7 @@ enum _Opcode
     OP_MULT_STACK   = 0x03,
     OP_DIV_STACK    = 0x04,
     OP_SUB_STACK    = 0x05,
+    OP_JMP          = 0x06,
     OP_HLT          = 0xFF
 };
 typedef enum _Opcode Opcode;

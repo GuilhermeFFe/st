@@ -41,6 +41,20 @@ void compiler_start( Compiler* compiler )
                 case SUB:
                     byte_buffer_write8( compiler->bytecode, OP_SUB_STACK );
                     break;
+                case JMP:
+                    if( token_list_get( compiler->tokens, i+1 )->type == NUMBER )
+                    {
+                        byte_buffer_write8( compiler->bytecode, OP_JMP );
+                        byte_buffer_write32( compiler->bytecode, token_list_get( compiler->tokens, i+1 )->data );
+                        i++;
+                    }
+                    else
+                    {
+                        printf( "Bad JMP inst\n" );
+                        compiler->status = COMPILER_ERROR;
+                        return;
+                    }
+                    break;
                 case HLT:
                     byte_buffer_write8( compiler->bytecode, OP_HLT );
                     break;

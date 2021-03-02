@@ -24,6 +24,10 @@ void runtime_start( Runtime* runtime )
             case OP_MULT_STACK:
                 push32( runtime, pop32( runtime ) * pop32( runtime ) );
                 break;
+            case OP_JMP: ;
+                uint32_t addr = read32( runtime->code, runtime->ip );
+                runtime->ip = addr;
+                break;
             case OP_DIV_STACK: ;
                 uint32_t a = pop32( runtime );
                 uint32_t b = pop32( runtime );
