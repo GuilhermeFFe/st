@@ -2,6 +2,8 @@ cmake_minimum_required( VERSION 3.17 )
 
 project( staple C )
 
+add_compile_options( -Wall -Wextra -Wswitch-enum )
+
 add_executable( staple
     src/main.c
     src/util.c

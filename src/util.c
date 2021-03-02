@@ -73,8 +73,8 @@ uint16_t read16( uint8_t* buffer, size_t index )
 
 uint32_t read32( uint8_t* buffer, size_t index )
 {
-    return buffer[index++] << 24 |
-           buffer[index++] << 16 |
-           buffer[index++] << 8 |
-           buffer[index];
+    return buffer[index] << 24 |
+           buffer[index + 1] << 16 |
+           buffer[index + 2] << 8 |
+           buffer[index + 3];
 }

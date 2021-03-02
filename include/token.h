@@ -14,6 +14,9 @@ enum _TokenInst
     NO_INST = -1, // No instruction found (error state)
     PUSH,
     ADD,
+    MULT,
+    DIV,
+    SUB,
     HLT
 };
 typedef enum _TokenInst TokenInst;
@@ -46,12 +49,12 @@ typedef struct _Token Token;
  */
 void token_create( Token* tok, TokenType type, int data, int line );
 
-/**
- * Frees memory allocated to given token
- * 
- * @param tok token to be free'd
- */
-void token_destroy( Token* tok );
+// /**
+//  * Frees memory allocated to given token
+//  * 
+//  * @param tok token to be free'd
+//  */
+// void token_destroy( Token* tok );
 
 struct _TokenList
 {

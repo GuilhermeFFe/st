@@ -1,0 +1,4 @@
+push #40
+push #20
+sub
+hlt

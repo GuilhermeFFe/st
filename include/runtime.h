@@ -21,6 +21,7 @@ struct _Runtime
     size_t sp;      // Stack pointer
     size_t ip;      // Instruction pointer
     uint8_t exit;
+    char* message;
     bool running;
 };
 typedef struct _Runtime Runtime;

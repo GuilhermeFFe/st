@@ -7,10 +7,10 @@ void token_create( Token* tok, TokenType type, int data, int line )
     tok->line = line;
 }
 
-void token_destroy( Token* tok )
-{
-    // free( tok );
-}
+// void token_destroy( Token* tok )
+// {
+//     // free( tok );
+// }
 
 void token_list_initialize( TokenList* list, size_t size )
 {
@@ -38,10 +38,10 @@ Token* token_list_get( const TokenList* list, size_t index )
 
 void token_list_destroy( TokenList* list )
 {
-    for( int i = 0; i < list->ptr; i++ )
-    {
-        token_destroy( &list->data[i] );
-    }
+    // for( size_t i = 0; i < list->ptr; i++ )
+    // {
+    //     token_destroy( &list->data[i] );
+    // }
     free( list->data );
 }
 
@@ -53,7 +53,13 @@ char* token_inst_str( const TokenInst tinst )
     {
         to_str_case( PUSH, "push" )
         to_str_case( ADD, "add" )
+        to_str_case( MULT, "mult" )
         to_str_case( HLT, "hlt" )
+        to_str_case( DIV, "div" )
+        to_str_case( SUB, "sub" )
+        case NO_INST:
+        default:
+            return "";
     }
 
 #undef to_str_case

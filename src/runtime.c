@@ -1,16 +1,18 @@
 #include <runtime.h>
 #include <opcode.h>
 
+#include <stdio.h>
+
 void runtime_start( Runtime* runtime )
 {
     runtime->sp = -1;
-    runtime->ip = -1;
+    runtime->ip = 0;
     runtime->exit = 0;
     runtime->running = true;
 
     while( runtime->running )
     {
-        switch( runtime->code[runtime->ip++] )
+        switch( (Opcode)runtime->code[runtime->ip++] )
         {
             case OP_PUSH_CONST:
                 push32( runtime, read32( runtime->code, runtime->ip ) );
@@ -18,6 +20,28 @@ void runtime_start( Runtime* runtime )
                 break;
             case OP_ADD_STACK:
                 push32( runtime, pop32( runtime ) + pop32( runtime ) );
+                break;
+            case OP_MULT_STACK:
+                push32( runtime, pop32( runtime ) * pop32( runtime ) );
+                break;
+            case OP_DIV_STACK: ;
+                uint32_t a = pop32( runtime );
+                uint32_t b = pop32( runtime );
+                if( b == 0 )
+                {
+                    runtime->message = "Illegal division by zero\n";
+                    runtime->status = RUNTIME_ERROR;
+                    runtime->running = false;
+                    runtime->exit = -1;
+                }
+                else
+                {
+                    push32( runtime, a / b );
+                }
+                break;
+            case OP_SUB_STACK:
+            // TODO: implement negative numbers
+                push32( runtime, pop32( runtime ) - pop32( runtime ) );
                 break;
             case OP_HLT:
                 runtime->exit = pop8( runtime );

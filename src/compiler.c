@@ -7,13 +7,13 @@ void compiler_start( Compiler* compiler )
 {
     compiler->bytecode = byte_buffer_create( 1 );
 
-    for( int i = 0; i < compiler->tokens->ptr; i++ )
+    for( size_t i = 0; i < compiler->tokens->ptr; i++ )
     {
         Token* t = token_list_get( compiler->tokens, i );
 
         if( t->type == INST )
         {
-            switch( t->data )
+            switch( (TokenInst)t->data )
             {
                 case PUSH:
                     if( token_list_get( compiler->tokens, i+1 )->type == NUMBER )
@@ -32,9 +32,19 @@ void compiler_start( Compiler* compiler )
                 case ADD:
                     byte_buffer_write8( compiler->bytecode, OP_ADD_STACK );
                     break;
+                case MULT:
+                    byte_buffer_write8( compiler->bytecode, OP_MULT_STACK );
+                    break;
+                case DIV:
+                    byte_buffer_write8( compiler->bytecode, OP_DIV_STACK );
+                    break;
+                case SUB:
+                    byte_buffer_write8( compiler->bytecode, OP_SUB_STACK );
+                    break;
                 case HLT:
                     byte_buffer_write8( compiler->bytecode, OP_HLT );
                     break;
+                case NO_INST:
                 default:
                     printf( "Unknown instruction token\n" );
                     compiler->status = COMPILER_ERROR;

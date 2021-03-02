@@ -53,9 +53,10 @@ int main( int argc, char** argv )
         runtime.code = buffer;
         runtime_start( &runtime );
 
-        if( runtime.status == RUNTIME_ERROR )
+        if( runtime.status != RUNTIME_SUCCESS )
         {
-            return 1;
+            printf( runtime.message );
+            return runtime.exit;
         }
 
         free( buffer );
