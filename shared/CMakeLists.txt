@@ -8,3 +8,7 @@ add_library( stlib SHARED
 
 target_include_directories( stlib PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include/ )
+
+install( TARGETS stlib
+    CONFIGURATIONS Release
+    DESTINATION /usr/local/lib/ )

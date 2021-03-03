@@ -10,3 +10,7 @@ add_executable( stvm
 target_link_libraries( stvm PRIVATE stlib )
 target_include_directories( stvm PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include/ )
+
+install( TARGETS stvm
+    CONFIGURATIONS Release
+    DESTINATION /usr/bin/ )

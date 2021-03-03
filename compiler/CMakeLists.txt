@@ -13,3 +13,8 @@ add_executable( stc
 target_link_libraries( stc PRIVATE stlib )
 target_include_directories( stc PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include/ )
+
+
+install( TARGETS stc
+    CONFIGURATIONS Release
+    DESTINATION /usr/bin/ )
