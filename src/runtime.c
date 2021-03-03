@@ -7,7 +7,7 @@ void runtime_start( Runtime* runtime )
 {
     runtime->cp = -1;
     runtime->sp = -1;
-    runtime->ip = 0;
+    runtime->ip = read32( runtime->code, 0 );
     runtime->exit = 0;
     runtime->running = true;
 

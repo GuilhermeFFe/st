@@ -1,0 +1,7 @@
+$double
+push #2
+mult
+hlt
+$start
+push #10
+call $$double

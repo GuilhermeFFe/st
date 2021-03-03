@@ -17,6 +17,24 @@ ParserStatus parser_start( TokenList* list, const char* source )
 
     parser_find_labels( &l_list, source );
 
+    uint32_t start_address;
+    Label* start_label = label_list_get( &l_list, "start" );
+    if( start_label == NULL )
+    {
+        printf( "Start label not defined, will start at 0x0004!\n" );
+        start_address = 0x0004;
+    }
+    else
+    {
+        start_address = start_label->addr;
+    }
+    {
+        Token token;
+        token_create( &token, NUMBER, start_address, line );
+        token_list_add( list, token );
+        curr_addr += 4;
+    }
+
     while( 1 )
     {
         // memset( lex, '\0', 256 );
@@ -91,7 +109,7 @@ void parser_find_labels( LabelList* l_list, const char* source )
     char lex[256];
     int lexi = 0;
     int src_idx = 0;
-    uint32_t curr_addr = 0;
+    uint32_t curr_addr = 4; // first four bytes are starting address
 
     while( 1 )
     {

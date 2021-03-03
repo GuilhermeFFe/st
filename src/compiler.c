@@ -6,8 +6,21 @@
 void compiler_start( Compiler* compiler )
 {
     compiler->bytecode = byte_buffer_create( 1 );
+    {
+        Token* t = token_list_get( compiler->tokens, 0 );
+        if( t->type == NUMBER )
+        {
+            byte_buffer_write32( compiler->bytecode, t->data );
+        }
+        else
+        {
+            printf( "Starting address not set!\n" );
+            compiler->status = COMPILER_ERROR;
+            return;
+        }
+    }
 
-    for( size_t i = 0; i < compiler->tokens->ptr; i++ )
+    for( size_t i = 1; i < compiler->tokens->ptr; i++ )
     {
         Token* t = token_list_get( compiler->tokens, i );
 
