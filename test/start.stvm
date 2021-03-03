@@ -1,7 +1,8 @@
 $double
-push #2
-mult
-hlt
+	push #2
+	mult
+	ret
 $start
-push #10
-call $$double
+	push #10
+	call $$double
+	hlt

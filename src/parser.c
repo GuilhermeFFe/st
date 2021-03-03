@@ -8,9 +8,10 @@
 ParserStatus parser_start( TokenList* list, const char* source )
 {
     char lex[256];
-    int lexi = 0;
-    int src_idx = 0;
-    int line = 1;
+    size_t lexi = 0;
+    size_t src_idx = 0;
+    size_t source_len = strlen( source );
+    size_t line = 1;
     uint32_t curr_addr = 0;
     LabelList l_list;
     label_list_initialize( &l_list, 1 );
@@ -45,8 +46,20 @@ ParserStatus parser_start( TokenList* list, const char* source )
         }
         lex[lexi] = '\0';
 
-        // TODO: linhas vazias
-        // TODO: tabs
+        if( lex[0] == '\0' && src_idx < source_len )
+        {
+            src_idx++;
+            continue;
+        }
+        while( lex[0] == '\t' )
+        {
+            size_t len = strlen( lex );
+            for( size_t i = 1; i < strlen( lex ); i++ )
+            {
+                lex[i-1] = lex[i];
+            }
+            lex[len-1] = '\0';
+        }
 
         Token token;
 
