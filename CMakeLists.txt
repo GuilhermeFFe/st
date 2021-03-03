@@ -2,15 +2,10 @@ cmake_minimum_required( VERSION 3.17 )
 
 project( staple C )
 
-add_compile_options( -Wall -Wextra -Wswitch-enum )
+set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
+set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
+set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
 
-add_executable( staple
-    src/main.c
-    src/util.c
-    src/parser.c
-    src/token.c
-    src/compiler.c
-    src/bytebuffer.c
-    src/runtime.c
-    src/labellist.c )
-include_directories( staple ${PROJECT_SOURCE_DIR}/include/ )
+add_subdirectory( shared )
+add_subdirectory( vm )
+add_subdirectory( compiler )
