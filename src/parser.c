@@ -169,6 +169,8 @@ TokenInst parser_get_inst( const char* buf )
     CMP( else if, DIV )
     CMP( else if, SUB )
     CMP( else if, JMP )
+    CMP( else if, CALL )
+    CMP( else if, RET )
     else
     {
         return NO_INST;

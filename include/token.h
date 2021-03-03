@@ -19,6 +19,8 @@ enum _TokenInst
     DIV,
     SUB,
     JMP,
+    CALL,
+    RET,
     HLT
 };
 typedef enum _TokenInst TokenInst;

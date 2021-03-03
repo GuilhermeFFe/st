@@ -55,6 +55,23 @@ void compiler_start( Compiler* compiler )
                         return;
                     }
                     break;
+                case CALL:
+                    if( token_list_get( compiler->tokens, i+1 )->type == NUMBER )
+                    {
+                        byte_buffer_write8( compiler->bytecode, OP_CALL );
+                        byte_buffer_write32( compiler->bytecode, token_list_get( compiler->tokens, i+1 )->data );
+                        i++;
+                    }
+                    else
+                    {
+                        printf( "Bad CALL inst\n" );
+                        compiler->status = COMPILER_ERROR;
+                        return;
+                    }
+                    break;
+                case RET:
+                    byte_buffer_write8( compiler->bytecode, OP_RET );
+                    break;
                 case HLT:
                     byte_buffer_write8( compiler->bytecode, OP_HLT );
                     break;

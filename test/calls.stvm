@@ -1,0 +1,14 @@
+push #12
+push #24
+call $$test
+push #10
+add
+call $$double
+hlt
+$test
+add
+ret
+$double
+push #2
+mult
+ret

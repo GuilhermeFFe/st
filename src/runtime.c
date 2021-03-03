@@ -5,6 +5,7 @@
 
 void runtime_start( Runtime* runtime )
 {
+    runtime->cp = -1;
     runtime->sp = -1;
     runtime->ip = 0;
     runtime->exit = 0;
@@ -24,9 +25,15 @@ void runtime_start( Runtime* runtime )
             case OP_MULT_STACK:
                 push32( runtime, pop32( runtime ) * pop32( runtime ) );
                 break;
+            case OP_CALL:
+                push_addr( runtime, runtime->ip+4 );
+                // fall through
             case OP_JMP: ;
                 uint32_t addr = read32( runtime->code, runtime->ip );
                 runtime->ip = addr;
+                break;
+            case OP_RET: ;
+                runtime->ip = pop_addr( runtime );
                 break;
             case OP_DIV_STACK: ;
                 uint32_t a = pop32( runtime );
@@ -56,6 +63,16 @@ void runtime_start( Runtime* runtime )
                 break;
         }
     }
+}
+
+void push_addr( Runtime* r, uint32_t addr )
+{
+    r->call_stack[++r->cp] = addr;
+}
+
+uint32_t pop_addr( Runtime* r )
+{
+    return r->call_stack[r->cp--];
 }
 
 void push8( Runtime* r, uint8_t data )

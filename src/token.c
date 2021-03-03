@@ -58,6 +58,8 @@ char* token_inst_str( const TokenInst tinst )
         to_str_case( DIV, "div" )
         to_str_case( SUB, "sub" )
         to_str_case( JMP, "jmp" )
+        to_str_case( CALL, "call" )
+        to_str_case( RET, "ret" )
         case NO_INST:
         default:
             return "";
