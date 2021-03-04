@@ -1,6 +1,6 @@
-pushr @b #2
-pushr @a #50
+pushr @b #10
+pushr @a @b
 push @b
 push @a
-div
+mult
 hlt

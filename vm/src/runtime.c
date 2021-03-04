@@ -61,10 +61,16 @@ void runtime_start( Runtime* runtime )
             // TODO: implement negative numbers
                 push32( runtime, pop32( runtime ) - pop32( runtime ) );
                 break;
-            case OP_PUSHR: ;
+            case OP_PUSHR_CONST: ;
                 RegisterId id = runtime->code[runtime->ip++];
                 register_list_push( &runtime->register_list, id, read32( runtime->code, runtime->ip ) );
                 runtime->ip += 4;
+                break;
+            case OP_PUSHR_REG_VAL: ;
+                RegisterId dest = runtime->code[runtime->ip++];
+                RegisterId orig = runtime->code[runtime->ip++];
+                uint32_t val = register_list_get_value( &runtime->register_list, orig );
+                register_list_push( &runtime->register_list, dest, val );
                 break;
             case OP_HLT:
                 runtime->exit = pop8( runtime );

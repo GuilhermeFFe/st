@@ -93,19 +93,31 @@ void compiler_start( Compiler* compiler )
                     byte_buffer_write8( compiler->bytecode, OP_HLT );
                     break;
                 case PUSHR:
-                    byte_buffer_write8( compiler->bytecode, OP_PUSHR );
+                    if( token_list_get( compiler->tokens, i+2 )->type == NUMBER )
+                    {
+                        byte_buffer_write8( compiler->bytecode, OP_PUSHR_CONST );
+                    }
+                    else if( token_list_get( compiler->tokens, i+2 )->type == REGISTER )
+                    {
+                        byte_buffer_write8( compiler->bytecode, OP_PUSHR_REG_VAL );
+                    }
+                    else
+                    {
+                        printf( "Bad PUSHR inst - No register nor number given as origin\n" );
+                        compiler->status = COMPILER_ERROR;
+                        return;
+                    }
+
                     if( token_list_get( compiler->tokens, ++i )->type == REGISTER )
                     {
                         byte_buffer_write8( compiler->bytecode, token_list_get( compiler->tokens, i )->data );
-                        if( token_list_get( compiler->tokens, ++i )->type == NUMBER )
+                        if( token_list_get( compiler->tokens, i+1 )->type == NUMBER )
                         {
-                            byte_buffer_write32( compiler->bytecode, token_list_get( compiler->tokens, i )->data );
+                            byte_buffer_write32( compiler->bytecode, token_list_get( compiler->tokens, ++i )->data );
                         }
-                        else
+                        else if( token_list_get( compiler->tokens, i+1 )->type == REGISTER )
                         {
-                            printf( "Bad PUSHR inst - No number constant given\n" );
-                            compiler->status = COMPILER_ERROR;
-                            return;
+                            byte_buffer_write8( compiler->bytecode, token_list_get( compiler->tokens, ++i )->data );
                         }
                     }
                     else
