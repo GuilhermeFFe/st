@@ -10,6 +10,9 @@ void runtime_start( Runtime* runtime )
     runtime->ip = read32( runtime->code, 0 );
     runtime->exit = 0;
     runtime->running = true;
+    register_list_start( &runtime->register_list );
+
+    // TODO: READ VALUE FROM REGISTER
 
     while( runtime->running )
     {
@@ -18,6 +21,10 @@ void runtime_start( Runtime* runtime )
             case OP_PUSH_CONST:
                 push32( runtime, read32( runtime->code, runtime->ip ) );
                 runtime->ip += 4;
+                break;
+            case OP_PUSH_REG_VAL: ;
+                RegisterId rid = runtime->code[ runtime->ip++ ];
+                push32( runtime, register_list_get_value( &runtime->register_list, rid ) );
                 break;
             case OP_ADD_STACK:
                 push32( runtime, pop32( runtime ) + pop32( runtime ) );
@@ -53,6 +60,11 @@ void runtime_start( Runtime* runtime )
             case OP_SUB_STACK:
             // TODO: implement negative numbers
                 push32( runtime, pop32( runtime ) - pop32( runtime ) );
+                break;
+            case OP_PUSHR: ;
+                RegisterId id = runtime->code[runtime->ip++];
+                register_list_push( &runtime->register_list, id, read32( runtime->code, runtime->ip ) );
+                runtime->ip += 4;
                 break;
             case OP_HLT:
                 runtime->exit = pop8( runtime );

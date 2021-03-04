@@ -32,8 +32,12 @@ void compiler_start( Compiler* compiler )
                     if( token_list_get( compiler->tokens, i+1 )->type == NUMBER )
                     {
                         byte_buffer_write8( compiler->bytecode, OP_PUSH_CONST );
-                        byte_buffer_write32( compiler->bytecode, token_list_get( compiler->tokens, i+1 )->data );
-                        i++;
+                        byte_buffer_write32( compiler->bytecode, token_list_get( compiler->tokens, ++i )->data );
+                    }
+                    else if( token_list_get( compiler->tokens, i+1 )->type == REGISTER )
+                    {
+                        byte_buffer_write8( compiler->bytecode, OP_PUSH_REG_VAL );
+                        byte_buffer_write8( compiler->bytecode, token_list_get( compiler->tokens, ++i )->data );
                     }
                     else
                     {
@@ -87,6 +91,30 @@ void compiler_start( Compiler* compiler )
                     break;
                 case HLT:
                     byte_buffer_write8( compiler->bytecode, OP_HLT );
+                    break;
+                case PUSHR:
+                    byte_buffer_write8( compiler->bytecode, OP_PUSHR );
+                    if( token_list_get( compiler->tokens, ++i )->type == REGISTER )
+                    {
+                        byte_buffer_write8( compiler->bytecode, token_list_get( compiler->tokens, i )->data );
+                        if( token_list_get( compiler->tokens, ++i )->type == NUMBER )
+                        {
+                            byte_buffer_write32( compiler->bytecode, token_list_get( compiler->tokens, i )->data );
+                        }
+                        else
+                        {
+                            printf( "Bad PUSHR inst - No number constant given\n" );
+                            compiler->status = COMPILER_ERROR;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        printf( "Bad PUSHR inst - No register given\n" );
+                        compiler->status = COMPILER_ERROR;
+                        return;
+                    }
+                    break;
                     break;
                 case NO_INST:
                 default:

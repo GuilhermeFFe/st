@@ -65,6 +65,17 @@ ParserStatus parser_start( TokenList* list, const char* source )
 
         switch( lex[0] )
         {
+            case '@':;
+                RegisterId id = parser_get_register_id( lex );
+                if( id == NO_REG )
+                {
+                    printf( "Syntax error: unknown register '%s'\n", lex );
+                    return PARSER_SYNTAX_ERROR;
+                }
+                token_create( &token, REGISTER, id, line );
+                token_list_add( list, token );
+                curr_addr++;
+                break;
             case '$':;
                 uint32_t addr = parser_get_label( &l_list, lex, curr_addr );
                 if( addr == 0xFFFF )
@@ -189,6 +200,22 @@ uint32_t parser_get_label( LabelList* ll, char* buf, uint32_t curr_addr )
     }
 }
 
+RegisterId parser_get_register_id( const char* buf )
+{
+    const char* name = &buf[1];
+
+#define CMP( _if, _id ) _if( strcmp( name, register_id_str( _id ) ) == 0 ) return _id;
+
+    CMP( if, REG_A )
+    CMP( else if, REG_B )
+    else
+    {
+        return NO_REG;
+    }
+
+#undef CMP
+}
+
 TokenInst parser_get_inst( const char* buf )
 {
 #define CMP( _if, _inst ) _if( strcmp( buf, token_inst_str( _inst ) ) == 0 ) return _inst;
@@ -202,6 +229,7 @@ TokenInst parser_get_inst( const char* buf )
     CMP( else if, JMP )
     CMP( else if, CALL )
     CMP( else if, RET )
+    CMP( else if, PUSHR )
     else
     {
         return NO_INST;

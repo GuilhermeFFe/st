@@ -1,0 +1,6 @@
+pushr @b #2
+pushr @a #50
+push @b
+push @a
+div
+hlt

@@ -3,6 +3,7 @@
 #include <stdbool.h>
 
 #include <util.h>
+#include <registers.h>
 
 #define STACK_SIZE 1024
 #define CALL_STACK_SIZE (STACK_SIZE/4)
@@ -18,6 +19,7 @@ struct _Runtime
 {
     uint8_t* code;
     RuntimeStatus status;
+    RegisterList register_list;
     uint8_t stack[STACK_SIZE];
     uint32_t call_stack[CALL_STACK_SIZE];
     uint32_t cp;      // Call pointer

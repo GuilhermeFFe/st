@@ -4,7 +4,8 @@ project( stlib C )
 
 add_library( stlib SHARED
     src/bytebuffer.c
-    src/util.c )
+    src/util.c
+    src/registerid.c )
 
 target_include_directories( stlib PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include/ )

@@ -6,7 +6,8 @@
 enum _TokenType
 {
     INST,
-    NUMBER
+    NUMBER,
+    REGISTER
 };
 typedef enum _TokenType TokenType;
 
@@ -21,6 +22,7 @@ enum _TokenInst
     JMP,
     CALL,
     RET,
+    PUSHR,
     HLT
 };
 typedef enum _TokenInst TokenInst;

@@ -2,6 +2,7 @@
 
 #include <token.h>
 #include <labellist.h>
+#include <registerid.h>
 
 #include <stdint.h>
 
@@ -44,6 +45,14 @@ uint32_t parser_get_label( LabelList* ll, char* buf, uint32_t curr_addr );
  * @returns instruction code
  */
 TokenInst parser_get_inst( const char* buf );
+
+/**
+ * gets RegisterId value from buf
+ * 
+ * @param buf buffer to be looked at
+ * @returns RegisterId value in buf ( I.E. "@a" becomes REG_A )
+ */
+RegisterId parser_get_register_id( const char* buf );
 
 /**
  * Finds all labels defined in given source code and feeds them to list
