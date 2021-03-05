@@ -5,8 +5,6 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#define REGISTER_AMMOUNT ((size_t)REG_B+1)
-
 struct _Register
 {
     RegisterId id;

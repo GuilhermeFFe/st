@@ -4,6 +4,8 @@ enum _RegisterId
 {
     REG_A       = 0x00,
     REG_B       = 0x01,
+
+    REGISTER_AMMOUNT,
     NO_REG      = 0xFF
 };
 typedef enum _RegisterId RegisterId;
