@@ -30,5 +30,7 @@ int main( int argc, char** argv )
 
     free( buffer );
 
-    return runtime.exit;
+    printf( "\n%d\n", runtime.exit );
+
+    return 0;
 }

@@ -61,6 +61,7 @@ char* token_inst_str( const TokenInst tinst )
         to_str_case( CALL, "call" )
         to_str_case( RET, "ret" )
         to_str_case( PUSHR, "pushr" )
+        to_str_case( PRNT, "prnt" )
         case NO_INST:
         default:
             return "";

@@ -61,7 +61,7 @@ void runtime_start( Runtime* runtime )
                 RegisterId orig = runtime->code[runtime->ip++];
                 uint32_t orig_val = register_list_get_value( &runtime->register_list, orig );
                 uint32_t dest_val = register_list_get_value( &runtime->register_list, dest );
-                register_list_push( &runtime->register_list, dest, orig_val + dest_val );
+                register_list_push( &runtime->register_list, dest, dest_val + orig_val );
                 break;
             }
             case OP_MULT_REG:
@@ -70,7 +70,7 @@ void runtime_start( Runtime* runtime )
                 RegisterId orig = runtime->code[runtime->ip++];
                 uint32_t orig_val = register_list_get_value( &runtime->register_list, orig );
                 uint32_t dest_val = register_list_get_value( &runtime->register_list, dest );
-                register_list_push( &runtime->register_list, dest, orig_val * dest_val );
+                register_list_push( &runtime->register_list, dest, dest_val * orig_val );
                 break;
             }
             case OP_DIV_REG:
@@ -88,7 +88,7 @@ void runtime_start( Runtime* runtime )
                 }
                 else
                 {
-                    register_list_push( &runtime->register_list, dest, orig_val / dest_val );
+                    register_list_push( &runtime->register_list, dest, dest_val / orig_val );
                 }
                 break;
             }
@@ -98,32 +98,52 @@ void runtime_start( Runtime* runtime )
                 RegisterId orig = runtime->code[runtime->ip++];
                 uint32_t orig_val = register_list_get_value( &runtime->register_list, orig );
                 uint32_t dest_val = register_list_get_value( &runtime->register_list, dest );
-                register_list_push( &runtime->register_list, dest, orig_val - dest_val );
+                register_list_push( &runtime->register_list, dest, dest_val - orig_val );
                 break;
             }
             case OP_CALL:
                 push_addr( runtime, runtime->ip+4 );
                 // fall through
-            case OP_JMP: ;
+            case OP_JMP:
+            {
                 uint32_t addr = read32( runtime->code, runtime->ip );
                 runtime->ip = addr;
                 break;
+            }
             case OP_RET: ;
                 runtime->ip = pop_addr( runtime );
                 break;
-            case OP_PUSHR_CONST: ;
+            case OP_PUSHR_CONST:
+            {
                 RegisterId id = runtime->code[runtime->ip++];
                 register_list_push( &runtime->register_list, id, read32( runtime->code, runtime->ip ) );
                 runtime->ip += 4;
                 break;
-            case OP_PUSHR_REG_VAL: ;
+            }
+            case OP_PUSHR_REG_VAL:
+            {
                 RegisterId dest = runtime->code[runtime->ip++];
                 RegisterId orig = runtime->code[runtime->ip++];
                 uint32_t val = register_list_get_value( &runtime->register_list, orig );
                 register_list_push( &runtime->register_list, dest, val );
                 break;
+            }
+            case OP_PRINT_STACK: 
+            {
+                uint32_t to_print = pop32( runtime );
+                push32( runtime, to_print );
+                printf( "%d\n", to_print );
+                break;
+            }
+            case OP_PRINT_REG:
+            {
+                RegisterId id = runtime->code[runtime->ip++];
+                uint32_t to_print = register_list_get_value( &runtime->register_list, id );
+                printf( "%d\n", to_print );
+                break;
+            }
             case OP_HLT:
-                runtime->exit = pop8( runtime );
+                runtime->exit = pop32( runtime );
                 runtime->status = RUNTIME_SUCCESS;
                 runtime->running = false;
                 break;

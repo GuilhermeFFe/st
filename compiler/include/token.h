@@ -23,6 +23,7 @@ enum _TokenInst
     CALL,
     RET,
     PUSHR,
+    PRNT,
     HLT
 };
 typedef enum _TokenInst TokenInst;

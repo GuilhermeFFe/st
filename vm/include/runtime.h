@@ -25,7 +25,7 @@ struct _Runtime
     uint32_t cp;      // Call pointer
     uint32_t sp;      // Stack pointer
     uint32_t ip;      // Instruction pointer
-    uint8_t exit;
+    uint32_t exit;
     char* message;
     bool running;
 };

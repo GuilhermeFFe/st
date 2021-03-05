@@ -199,6 +199,16 @@ void compiler_start( Compiler* compiler )
                         return;
                     }
                     break;
+                case PRNT:
+                    if( token_list_get( compiler->tokens, i+1 )->type == REGISTER )
+                    {
+                        byte_buffer_write8( compiler->bytecode, OP_PRINT_REG );
+                        byte_buffer_write8( compiler->bytecode, token_list_get( compiler->tokens, ++i )->data );
+                    }
+                    else
+                    {
+                        byte_buffer_write8( compiler->bytecode, OP_PRINT_STACK );
+                    }
                     break;
                 case NO_INST:
                 default:

@@ -1,24 +1,29 @@
 $start
     pushr @a #10
-    call $$sum
+    call $$square
+    prnt @a
     call $$double
+    prnt @a
     call $$divide
+    prnt @a
     call $$subtract
+    prnt @a
     push @a
+    prnt
     hlt
-$sum
-    pushr @b #5
-    add @a @b
+$square
+    pushr @b @a
+    mult @a @b
     ret
 $double
     pushr @b #2
     mult @a @b
     ret
 $divide
-    pushr @b #2
+    pushr @b #4
     div @a @b
     ret
 $subtract
-    pushr @b #10
+    pushr @b #5
     sub @a @b
     ret

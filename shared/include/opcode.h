@@ -18,6 +18,8 @@ enum _Opcode
     OP_RET              = 0x0D,
     OP_PUSHR_CONST      = 0x0E,
     OP_PUSHR_REG_VAL    = 0x0F,
+    OP_PRINT_STACK      = 0x10,
+    OP_PRINT_REG        = 0x11,
     OP_HLT              = 0xFF
 };
 typedef enum _Opcode Opcode;
