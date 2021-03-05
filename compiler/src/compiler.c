@@ -47,16 +47,88 @@ void compiler_start( Compiler* compiler )
                     }
                     break;
                 case ADD:
-                    byte_buffer_write8( compiler->bytecode, OP_ADD_STACK );
+                    if( token_list_get( compiler->tokens, i+1 )->type == REGISTER )
+                    {
+                        byte_buffer_write8( compiler->bytecode, OP_ADD_REG );
+                        byte_buffer_write8( compiler->bytecode, token_list_get( compiler->tokens, ++i )->data );
+                        if( token_list_get( compiler->tokens, i+1 )->type == REGISTER )
+                        {
+                            byte_buffer_write8( compiler->bytecode, token_list_get( compiler->tokens, ++i )->data );
+                        }
+                        else
+                        {
+                            printf( "Bad ADD register instruction - no origin value" );
+                            compiler->status = COMPILER_ERROR;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        byte_buffer_write8( compiler->bytecode, OP_ADD_STACK );
+                    }
                     break;
                 case MULT:
-                    byte_buffer_write8( compiler->bytecode, OP_MULT_STACK );
+                    if( token_list_get( compiler->tokens, i+1 )->type == REGISTER )
+                    {
+                        byte_buffer_write8( compiler->bytecode, OP_MULT_REG );
+                        byte_buffer_write8( compiler->bytecode, token_list_get( compiler->tokens, ++i )->data );
+                        if( token_list_get( compiler->tokens, i+1 )->type == REGISTER )
+                        {
+                            byte_buffer_write8( compiler->bytecode, token_list_get( compiler->tokens, ++i )->data );
+                        }
+                        else
+                        {
+                            printf( "Bad MULT register instruction - no origin value" );
+                            compiler->status = COMPILER_ERROR;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        byte_buffer_write8( compiler->bytecode, OP_MULT_STACK );
+                    }
                     break;
                 case DIV:
-                    byte_buffer_write8( compiler->bytecode, OP_DIV_STACK );
+                    if( token_list_get( compiler->tokens, i+1 )->type == REGISTER )
+                    {
+                        byte_buffer_write8( compiler->bytecode, OP_DIV_REG );
+                        byte_buffer_write8( compiler->bytecode, token_list_get( compiler->tokens, ++i )->data );
+                        if( token_list_get( compiler->tokens, i+1 )->type == REGISTER )
+                        {
+                            byte_buffer_write8( compiler->bytecode, token_list_get( compiler->tokens, ++i )->data );
+                        }
+                        else
+                        {
+                            printf( "Bad DIV register instruction - no origin value" );
+                            compiler->status = COMPILER_ERROR;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        byte_buffer_write8( compiler->bytecode, OP_DIV_STACK );
+                    }
                     break;
                 case SUB:
-                    byte_buffer_write8( compiler->bytecode, OP_SUB_STACK );
+                    if( token_list_get( compiler->tokens, i+1 )->type == REGISTER )
+                    {
+                        byte_buffer_write8( compiler->bytecode, OP_SUB_REG );
+                        byte_buffer_write8( compiler->bytecode, token_list_get( compiler->tokens, ++i )->data );
+                        if( token_list_get( compiler->tokens, i+1 )->type == REGISTER )
+                        {
+                            byte_buffer_write8( compiler->bytecode, token_list_get( compiler->tokens, ++i )->data );
+                        }
+                        else
+                        {
+                            printf( "Bad SUB register instruction - no origin value" );
+                            compiler->status = COMPILER_ERROR;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        byte_buffer_write8( compiler->bytecode, OP_SUB_STACK );
+                    }
                     break;
                 case JMP:
                     if( token_list_get( compiler->tokens, i+1 )->type == NUMBER )

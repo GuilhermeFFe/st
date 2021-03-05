@@ -1,0 +1,24 @@
+$start
+    pushr @a #10
+    call $$square
+    call $$double
+    call $$divide
+    call $$subtract
+    push @a
+    hlt
+$square
+    pushr @b @a
+    mult @a @b
+    ret
+$double
+    pushr @b #2
+    mult @a @b
+    ret
+$divide
+    pushr @b #4
+    div @a @b
+    ret
+$subtract
+    pushr @b #25
+    sub @a @b
+    ret
